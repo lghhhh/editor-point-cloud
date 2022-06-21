@@ -11,24 +11,47 @@ const init3d = () => {
   // 场景
   const scene = new THREE.Scene();
   // 模型
-const geometry = new THREE.BufferGeometry();
+  // const geometry = new THREE.BoxGeometry(100, 100, 100);
+  // const material = new THREE.MeshLambertMaterial({
+  //   color: 0x0000ff,
+  // });
+  // const mesh = new THREE.Mesh(geometry, material);
+  const geomerty = new THREE.BufferGeometry();
+  const vertices = new Float32Array([
+    0, 0, 0, // 顶点1坐标
+    80, 0, 0, // 顶点2坐标
+    80, 80, 0, // 顶点3坐标
+    0, 80, 0, // 顶点4坐标
+  ]);
+  const attribute = new THREE.BufferAttribute(vertices, 3);
+  geomerty.attributes.position = attribute;
 
-const p1 = new THREE.Vector3(50, 0, 0); // 顶点1坐标
-const p2 = new THREE.Vector3(0, 70, 0); // 顶点2坐标
-const p3 = new THREE.Vector3(80, 70, 0); // 顶点3坐标
-// 顶点坐标添加到geometry对象
-geometry.setFromPoints([p1, p2, p3]);
+  // 法向量
+  const normals = new Float32Array([
+    0, 0, 1,
+    0, 0, 1,
+    0, 0, 1,
+    0, 0, 1,
+  ]);
+  geomerty.attributes.normals = new THREE.BufferAttribute(normals, 3);
 
-const c1 = new THREE.Color(0x00ff00); // 顶点1颜色——绿色
-const c2 = new THREE.Color(0xff0000); // 顶点2颜色——红色
-const c3 = new THREE.Color(0x0000ff); // 顶点3颜色——蓝色
-// geometry.attributes.color = new THREE.BufferAttribute([c1, c2, c3], 1);
+  // 顶点索引
+  // 类型化数组 根据顶点个数 选择适合的uint16、uint32等等。
+  const vertexIndex = new Uint16Array([
+    // 0对应第1个顶点位置数据、第1个顶点法向量数据
+  // 1对应第2个顶点位置数据、第2个顶点法向量数据
+  // 索引值3个为一组，表示一个三角形的3个顶点
+  0, 1, 2,
+  0, 2, 3,
+  ]);
+  geomerty.index = new THREE.BufferAttribute(vertexIndex, 1);
+
   const material = new THREE.MeshBasicMaterial({
     color: 0x33cccc,
     side: THREE.DoubleSide,
   });
 
-  const mesh = new THREE.Mesh(geometry, material);
+  const mesh = new THREE.Mesh(geomerty, material);
 
   scene.add(mesh);
 
